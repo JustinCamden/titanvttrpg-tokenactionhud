@@ -800,7 +800,15 @@
       "weapons.label": "Weapons",
       "equipment.label": "Equipment",
       "abilities.label": "Abilities",
-      "spells.label": "Spells"
+      "spells.label": "Spells",
+      "recovery.label": "Recovery",
+      "removeTemporaryEffects.label": "Remove Temporary Effects",
+      "takeABreather.label": "Take a Breather",
+      "rest.label": "Rest",
+      "resources.label": "Resources",
+      "spendResolve.label": "Spend Resolve",
+      "hasInspirationTrue.label": "Has Inspiration? (True)",
+      "hasInspirationFalse.label": "Has Inspiration? (False)"
     },
     "wfrp": {
       "basic": "Basic",

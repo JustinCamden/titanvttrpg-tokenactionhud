@@ -46,7 +46,8 @@ export class TitanActionHandler extends ActionHandler {
             this._buildWeaponsCategory(actor, tokenIds),
             this._buildEquipmentCategory(actor, tokenIds),
             this._buildAbilitiesCategory(actor, tokenIds),
-            this._buildSpellsCategory(actor, tokenIds)
+            this._buildSpellsCategory(actor, tokenIds),
+            this._buildUtilityCategorySingleToken(actor, tokenIds)
          ];
 
          categories
@@ -81,7 +82,10 @@ export class TitanActionHandler extends ActionHandler {
             tokenIds += `|${actor.id}`;
          });
 
-         const categories = this._buildBaseCategories(tokenIds);
+         const categories = [
+            ...this._buildBaseCategories(tokenIds),
+            this._buildUtilityCategoryMultiToken(tokenIds)
+         ];
          categories
             .flat()
             .filter((category) => category)
@@ -404,6 +408,89 @@ export class TitanActionHandler extends ActionHandler {
       });
 
       abilities.forEach((item) => retVal.subcategories.push(this._buildItemCheckSubcategory(item, tokenIds)));
+
+      return retVal;
+   }
+
+   _buildUtilityCategorySingleToken(actor, tokenIds) {
+      const retVal = this.initializeEmptyCategory('utility');
+      retVal.name = this.i18n('tokenActionHud.utility');
+
+      retVal.subcategories.push({
+         id: 'recovery',
+         name: this.localize('recovery'),
+         actions: [
+            {
+               name: this.localize('rest'),
+               encodedValue: `rest${tokenIds}`
+            },
+            {
+               name: this.localize('takeABreather'),
+               encodedValue: `takeABreather${tokenIds}`
+            },
+            {
+               name: this.localize('removeTemporaryEffects'),
+               encodedValue: `removeTemporaryEffects${tokenIds}`
+            },
+         ]
+      });
+
+      const resources = {
+         id: 'resources',
+         name: this.localize('resources'),
+         actions: [
+            {
+               name: this.localize('spendResolve'),
+               encodedValue: `spendResolve${tokenIds}`
+            },
+         ]
+      };
+
+      if (actor.type === 'player') {
+         resources.actions.push({
+            name: this.localize(actor.system.inspiration ? 'hasInspirationTrue' : 'hasInspirationFalse'),
+            encodedValue: `toggleInspiration${tokenIds}`
+         })
+      }
+
+      retVal.subcategories.push(resources);
+
+      return retVal;
+   }
+
+   _buildUtilityCategoryMultiToken(tokenIds) {
+      const retVal = this.initializeEmptyCategory('utility');
+      retVal.name = this.i18n('tokenActionHud.utility');
+
+      retVal.subcategories.push({
+         id: 'recovery',
+         name: this.localize('recovery'),
+         actions: [
+            {
+               name: this.localize('rest'),
+               encodedValue: `rest${tokenIds}`
+            },
+            {
+               name: this.localize('takeABreather'),
+               encodedValue: `takeABreather${tokenIds}`
+            },
+            {
+               name: this.localize('removeTemporaryEffects'),
+               encodedValue: `removeTemporaryEffects${tokenIds}`
+            },
+         ]
+      });
+
+      retVal.subcategories.push({
+         id: 'resources',
+         name: this.localize('resources'),
+         actions: [
+            {
+               name: this.localize('spendResolve'),
+               encodedValue: `spendResolve${tokenIds}`
+            },
+         ]
+      });
 
       return retVal;
    }

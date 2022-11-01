@@ -304,6 +304,140 @@ export class TitanRollHandler extends RollHandler {
             return;
          }
 
+         case 'rest': {
+            // For each actor in the payload
+            for (let payloadIdx = 1; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     character.rest(true);
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Rest Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Rest Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
+
+         case 'takeABreather': {
+            // For each actor in the payload
+            for (let payloadIdx = 1; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     character.takeABreather(true);
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Take a Breather Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Take a Breather Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
+
+         case 'removeTemporaryEffects': {
+            // For each actor in the payload
+            for (let payloadIdx = 1; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     character.removeTemporaryEffects(true);
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Remove Temporary Effects Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Remove Temporary Effects Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
+
+         case 'spendResolve': {
+            // For each actor in the payload
+            for (let payloadIdx = 1; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     character.spendResolve(true);
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Spend Resolve Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Spend Resolve Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
+
+         case 'toggleInspiration': {
+            // For each actor in the payload
+            for (let payloadIdx = 1; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     character.toggleInspiration();
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Toggle Inspiration Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Toggle Inspiration Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
 
          default: {
             console.error(`TOKEN ACTION HUD (TITAN) | Action. Invalid action type (${actionType}).`);
