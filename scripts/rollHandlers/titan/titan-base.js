@@ -20,7 +20,6 @@ export class TitanRollHandler extends RollHandler {
 
          // Attribute check
          case 'attributeCheck': {
-            const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
             const attribute = payload[1];
             if (!attribute) {
                console.error('TOKEN ACTION HUD (TITAN) | Attribute Check Failed. No provided Attribute.');
@@ -36,6 +35,7 @@ export class TitanRollHandler extends RollHandler {
                if (actor) {
                   const character = actor.character;
                   if (character) {
+                     const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
                      character.rollAttributeCheck({
                         attribute: attribute,
                         getOptions: getOptions
@@ -60,7 +60,6 @@ export class TitanRollHandler extends RollHandler {
 
          // Skill check
          case 'resistanceCheck': {
-            const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
             const resistance = payload[1];
             if (!resistance) {
                console.error('TOKEN ACTION HUD (TITAN) | Resistance Check Failed. No provided Resistance.');
@@ -76,6 +75,7 @@ export class TitanRollHandler extends RollHandler {
                if (actor) {
                   const character = actor.character;
                   if (character) {
+                     const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
                      character.rollResistanceCheck({
                         resistance: resistance,
                         getOptions: getOptions
@@ -99,7 +99,6 @@ export class TitanRollHandler extends RollHandler {
 
          // Skill check
          case 'skillCheck': {
-            const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
             const skill = payload[1];
             if (!skill) {
                console.error('TOKEN ACTION HUD (TITAN) | Skill Check Failed. No provided Skill.');
@@ -114,6 +113,7 @@ export class TitanRollHandler extends RollHandler {
 
                if (actor) {
                   const character = actor.character;
+                  const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
                   if (character) {
                      character.rollAttributeCheck({
                         skill: skill,
@@ -138,7 +138,6 @@ export class TitanRollHandler extends RollHandler {
 
          // Attack check
          case 'attackCheck': {
-            const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
             const itemId = payload[1];
             if (!itemId) {
                console.error('TOKEN ACTION HUD (TITAN) | Attack Check Failed. No provided Weapon ID.');
@@ -160,6 +159,7 @@ export class TitanRollHandler extends RollHandler {
 
                if (actor) {
                   const character = actor.character;
+                  const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
                   if (character) {
                      character.rollAttackCheck({
                         itemId: itemId,
@@ -217,6 +217,93 @@ export class TitanRollHandler extends RollHandler {
 
             return;
          }
+
+         // Item check
+         case 'itemCheck': {
+            const itemId = payload[1];
+            if (!itemId) {
+               console.error('TOKEN ACTION HUD (TITAN) | Item Check Failed. No provided Item ID.');
+               console.trace();
+               return;
+            }
+
+            const checkIdx = payload[2];
+            if (!checkIdx) {
+               console.error('TOKEN ACTION HUD (TITAN) | Item Check Failed. No provided Check IDX.');
+               console.trace();
+               return;
+            }
+
+            // For each actor in the payload
+            for (let payloadIdx = 3; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
+                     character.rollItemCheck({
+                        itemId: itemId,
+                        checkIdx: checkIdx,
+                        getOptions: getOptions
+                     });
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Item Check Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Item Check Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
+
+         // Item check
+         case 'castingCheck': {
+            const itemId = payload[1];
+            if (!itemId) {
+               console.error('TOKEN ACTION HUD (TITAN) | Casting Check Failed. No provided Item ID.');
+               console.trace();
+               return;
+            }
+
+            // For each actor in the payload
+            for (let payloadIdx = 2; payloadIdx < payload.length; payloadIdx++) {
+               const actorId = payload[payloadIdx];
+               const actor = super.getActor(actorId);
+
+               if (actor) {
+                  const character = actor.character;
+                  if (character) {
+                     const getOptions = game.settings.get('titan', 'getCheckOptions') === true || event.shiftKey;
+                     character.rollCastingCheck({
+                        itemId: itemId,
+                        getOptions: getOptions
+                     });
+                  }
+
+                  else {
+                     console.error(`TOKEN ACTION HUD (TITAN) | Item Check Failed. No Character component found (Actor ID: ${actorId}).`);
+                     console.trace();
+                  }
+               }
+
+               else {
+                  console.error(`TOKEN ACTION HUD (TITAN) | Item Check Failed. No Actor found (Actor ID: ${actorId}).`);
+                  console.trace();
+               }
+            }
+
+            return;
+         }
+
 
          default: {
             console.error(`TOKEN ACTION HUD (TITAN) | Action. Invalid action type (${actionType}).`);

@@ -41,7 +41,13 @@ export class TitanActionHandler extends ActionHandler {
          // Create a tokens list string
          let tokenIds = `|${token.id}`;
 
-         const categories = [...this._buildBaseCategories(tokenIds), this._buildWeaponsCategory(actor, tokenIds)];
+         const categories = [
+            ...this._buildBaseCategories(tokenIds),
+            this._buildWeaponsCategory(actor, tokenIds),
+            this._buildEquipmentCategory(actor, tokenIds),
+            this._buildAbilitiesCategory(actor, tokenIds),
+            this._buildSpellsCategory(actor, tokenIds)
+         ];
 
          categories
             .flat()
@@ -228,7 +234,15 @@ export class TitanActionHandler extends ActionHandler {
          subcategories: []
       }
 
-      const weapons = actor.items.filter((item) => item.type === 'weapon' && item.system.attack.length > 0);
+      const weapons = actor.items.filter((item) => item.type === 'weapon' && item.system.attack.length > 0).sort((a, b) => {
+         if (a.sort < b.sort) {
+            return -1;
+         }
+         if (a.sort > b.sort) {
+            return 1;
+         }
+         return 0;
+      });
       weapons.forEach((weapon) => retVal.subcategories.push(this._buildWeaponSubcategory(weapon, tokenIds)));
 
       return retVal;
@@ -238,10 +252,7 @@ export class TitanActionHandler extends ActionHandler {
       const retVal = {
          id: weapon._id,
          name: weapon.name,
-         actions: [{
-            name: this.localize(weapon.system.multiAttack ? 'multiAttackOn' : 'multiAttackOff'),
-            encodedValue: `toggleMultiAttack|${weapon._id}${tokenIds}`
-         }],
+         actions: [],
       };
 
       weapon.system.attack.forEach((attack, idx) => {
@@ -250,6 +261,149 @@ export class TitanActionHandler extends ActionHandler {
             encodedValue: `attackCheck|${weapon._id}|${idx}${tokenIds}`
          });
       });
+
+      retVal.actions.push({
+         name: this.localize(weapon.system.multiAttack ? 'multiAttackOn' : 'multiAttackOff'),
+         encodedValue: `toggleMultiAttack|${weapon._id}${tokenIds}`
+      });
+
+      weapon.system.check.forEach((check, idx) => {
+         retVal.actions.push({
+            name: `${check.label} ${check.difficulty}:${check.complexity}`,
+            encodedValue: `itemCheck|${weapon._id}|${idx}${tokenIds}`
+         });
+      });
+
+      return retVal;
+   }
+
+   _buildSpellsCategory(actor, tokenIds) {
+      const retVal = {
+         id: 'spells',
+         name: this.localize('spells'),
+         subcategories: []
+      }
+
+      const spells = actor.items.filter((item) => item.type === 'spell').sort((a, b) => {
+         if (a.sort < b.sort) {
+            return -1;
+         }
+         if (a.sort > b.sort) {
+            return 1;
+         }
+         return 0;
+      });
+
+      let traditions = [];
+      spells.forEach((spell) => {
+         if (traditions.indexOf(spell.system.tradition) === -1) {
+            traditions.push(spell.system.tradition);
+         }
+      });
+
+      traditions.forEach((tradition) => {
+         const traditionSubcategory = {
+            id: tradition,
+            name: tradition,
+            actions: []
+         };
+
+         spells.forEach((spell) => {
+            if (spell.system.tradition === tradition) {
+               traditionSubcategory.actions.push({
+                  name: `${spell.name} ${spell.system.castingCheck.difficulty}:${spell.system.castingCheck.complexity}`,
+                  encodedValue: `castingCheck|${spell._id}${tokenIds}`
+               });
+            }
+         });
+
+         retVal.subcategories.push(traditionSubcategory);
+      });
+
+      return retVal;
+   }
+
+   _buildEquipmentCategory(actor, tokenIds) {
+      const retVal = {
+         id: 'equipment',
+         name: this.localize('equipment'),
+         subcategories: []
+      }
+
+      const items = actor.items.filter((item) => {
+         if (item.system.check.length > 0) {
+            switch (item.type) {
+               case 'weapon': {
+                  return false;
+               }
+
+               case 'ability': {
+                  return false;
+               }
+
+               case 'armor': {
+                  return actor.system.equipped.armor === item._id;
+               }
+
+               case 'shield': {
+                  return actor.system.equipped.shield === item._id;
+               }
+
+               default: {
+                  return item.system.equipped === undefined ? true : item.system.equipped;
+               }
+            }
+         }
+      }).sort((a, b) => {
+         if (a.sort < b.sort) {
+            return -1;
+         }
+         if (a.sort > b.sort) {
+            return 1;
+         }
+         return 0;
+      });
+
+      items.forEach((item) => retVal.subcategories.push(this._buildItemCheckSubcategory(item, tokenIds)));
+
+      return retVal;
+   }
+
+   _buildItemCheckSubcategory(item, tokenIds) {
+      const retVal = {
+         id: item._id,
+         name: item.name,
+         actions: [],
+      };
+
+      item.system.check.forEach((check, idx) => {
+         retVal.actions.push({
+            name: `${check.label} ${check.difficulty}:${check.complexity}`,
+            encodedValue: `itemCheck|${item._id}|${idx}${tokenIds}`
+         });
+      });
+
+      return retVal;
+   }
+
+   _buildAbilitiesCategory(actor, tokenIds) {
+      const retVal = {
+         id: 'abilities',
+         name: this.localize('abilities'),
+         subcategories: []
+      }
+
+      const abilities = actor.items.filter((item) => item.type === 'ability').sort((a, b) => {
+         if (a.sort < b.sort) {
+            return -1;
+         }
+         if (a.sort > b.sort) {
+            return 1;
+         }
+         return 0;
+      });
+
+      abilities.forEach((item) => retVal.subcategories.push(this._buildItemCheckSubcategory(item, tokenIds)));
 
       return retVal;
    }
