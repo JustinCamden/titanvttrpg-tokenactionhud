@@ -794,7 +794,10 @@
       "performance.label": "Performance",
       "rangedWeapons.label": "Ranged Weapons",
       "subterfuge.label": "Subterfuge",
-      "stealth.label": "Stealth  "
+      "stealth.label": "Stealth",
+      "multiAttackOff.label": "Multi-Attack (Off)",
+      "multiAttackOn.label": "Multi-Attack (On)",
+      "weapons.label": "Weapons"
     },
     "wfrp": {
       "basic": "Basic",

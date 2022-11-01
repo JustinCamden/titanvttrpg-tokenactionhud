@@ -21,7 +21,7 @@ export class TitanActionHandler extends ActionHandler {
       return this.initializeEmptyActionList();
    }
 
-   async _buildSingleTokenList(token) {
+   _buildSingleTokenList(token) {
       // Initialize list
       const list = this.initializeEmptyActionList();
       list.tokenId = token?.id;
@@ -41,7 +41,8 @@ export class TitanActionHandler extends ActionHandler {
          // Create a tokens list string
          let tokenIds = `|${token.id}`;
 
-         const categories = await this._buildBaseCategories(tokenIds);
+         const categories = [...this._buildBaseCategories(tokenIds), this._buildWeaponsCategory(actor, tokenIds)];
+
          categories
             .flat()
             .filter((category) => category)
@@ -53,7 +54,7 @@ export class TitanActionHandler extends ActionHandler {
       }
    }
 
-   async _buildMultipleTokenList() {
+   _buildMultipleTokenList() {
       const list = this.initializeEmptyActionList();
       list.tokenId = 'multi';
       list.actorId = 'multi';
@@ -74,9 +75,7 @@ export class TitanActionHandler extends ActionHandler {
             tokenIds += `|${actor.id}`;
          });
 
-         console.log(tokenIds);
-
-         const categories = await this._buildBaseCategories(tokenIds);
+         const categories = this._buildBaseCategories(tokenIds);
          categories
             .flat()
             .filter((category) => category)
@@ -220,5 +219,38 @@ export class TitanActionHandler extends ActionHandler {
       });
 
       return skills;
+   }
+
+   _buildWeaponsCategory(actor, tokenIds) {
+      const retVal = {
+         id: 'weapons',
+         name: this.localize('weapons'),
+         subcategories: []
+      }
+
+      const weapons = actor.items.filter((item) => item.type === 'weapon' && item.system.attack.length > 0);
+      weapons.forEach((weapon) => retVal.subcategories.push(this._buildWeaponSubcategory(weapon, tokenIds)));
+
+      return retVal;
+   }
+
+   _buildWeaponSubcategory(weapon, tokenIds) {
+      const retVal = {
+         id: weapon._id,
+         name: weapon.name,
+         actions: [{
+            name: this.localize(weapon.system.multiAttack ? 'multiAttackOn' : 'multiAttackOff'),
+            encodedValue: `toggleMultiAttack|${weapon._id}${tokenIds}`
+         }],
+      };
+
+      weapon.system.attack.forEach((attack, idx) => {
+         retVal.actions.push({
+            name: attack.label,
+            encodedValue: `attackCheck|${weapon._id}|${idx}${tokenIds}`
+         });
+      });
+
+      return retVal;
    }
 }
