@@ -27,6 +27,7 @@ import { GURPSSystemManager } from './gurps.js'
 import { Space1889SystemManager } from './space1889.js'
 import { CoC7SystemManager } from './coc7.js'
 import { CleenmainSystemManager } from './cleenmain.js'
+import { TitanSystemManager } from "./titan.js";
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -93,6 +94,8 @@ export class SystemManagerFactory {
         return new CoC7SystemManager(appName);
       case 'cleenmain':
         return new CleenmainSystemManager(appName);
+      case 'titan':
+        return new TitanSystemManager(appName);
     }
   }
 }

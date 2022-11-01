@@ -53,14 +53,15 @@ Hooks.on("init", () => {
     "gurps": "gurps",
     "space1889": "space1889",
     "CoC7": "CoC7",
-    "cleenmain": "cleenmain"
+    "cleenmain": "cleenmain",
+    "titan": "titan",
     /* put all the SystemManagers that are included directly in TAH here */
   }
   Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
-  
+
   const system = game.system.id;
   const supportedSystem = systemManagers[system];
-  if(!supportedSystem) {
+  if (!supportedSystem) {
     console.error("Token Action HUD: System not supported")
     /* handle the error case somehow. If this happens, it means the current system is not supported */
   }
@@ -74,7 +75,7 @@ Hooks.on("init", () => {
  */
 Hooks.on("renderSceneNavigation", (data, html) => {
   html.find("li.scene.nav-item").contextmenu((ev) => {
-      sendHudToBottom();
+    sendHudToBottom();
   });
 });
 
@@ -83,13 +84,13 @@ Hooks.on("renderSceneNavigation", (data, html) => {
  */
 Hooks.on("renderHotbar", (data, html) => {
   html.find("li.macro").contextmenu((ev) => {
-      sendHudToBottom();
+    sendHudToBottom();
   });
 });
 
-function sendHudToBottom () {
+function sendHudToBottom() {
   if (!game.tokenActionHUD) return;
-   game.tokenActionHUD.element[0].style.zIndex = 0;       
+  game.tokenActionHUD.element[0].style.zIndex = 0;
 }
 
 // Hooks.on("init", () => {
@@ -105,7 +106,7 @@ Hooks.once('ready', async () => {
   if (game.user.isGM) {
     if (!(game.modules.get('lib-themer')?.active ?? false) && !(game.modules.get('color-picker')?.active ?? false) && !(game.modules.get('colorsettings')?.active ?? false)) {
       const firstStartup = game.settings.get(appName, "startup") === false;
-      if ( firstStartup ) {
+      if (firstStartup) {
         ui.notifications.notify("Token Action HUD: To set colors within this module's settings, install and enable one of the following 'Color Picker', 'Color Settings' or 'libThemer' modules.")
         game.settings.set(appName, "startup", true);
       }

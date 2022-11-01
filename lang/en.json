@@ -407,7 +407,7 @@
     "dnd5e": {
       "abilities": "Abilities",
       "actions": "Actions",
-      "attributes": "Attributes", 
+      "attributes": "Attributes",
       "bonusActions": "Bonus Actions",
       "checks": "Checks",
       "consumables": "Consumables",
@@ -725,7 +725,7 @@
           "hint": "If enabled, abilities will be separated into checks and saves.",
           "name": "Show separate ability check and save categories"
         }
-      }  
+      }
     },
     "swade": {
       "bennies": "Bennies",
@@ -750,10 +750,10 @@
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate Skill and Ability Names"
         },
-        "allowGiveBennies" : {
+        "allowGiveBennies": {
           "name": "Allow Give Bennies",
           "hint": "Allow users with this role (and above) to give bennies via the HUD",
-          "choices" : {
+          "choices": {
             "4": "Game Master",
             "3": "Assistant GM",
             "2": "Trusted Player",
@@ -765,6 +765,36 @@
     "symbaroum": {
       "abilities": "Abilities",
       "mysticalPowers": "Mystical Powers"
+    },
+    "titan": {
+      "skillsAndAttributes.label": "Skills & Attributes",
+      "attributes.label": "Attributes",
+      "resistances.label": "Resistances",
+      "skills.label": "Skills",
+      "body.label": "Body",
+      "mind.label": "Mind",
+      "soul.label": "Soul",
+      "reflexes.label": "Reflexes",
+      "resilience.label": "Resilience",
+      "willpower.label": "Willpower",
+      "arcana.label": "Arcana",
+      "athletics.label": "Athletics",
+      "deception.label": "Deception",
+      "dexterity.label": "Dexterity",
+      "diplomacy.label": "Diplomacy",
+      "engineering.label": "Engineering",
+      "intimidation.label": "Intimidation",
+      "investigation.label": "Investigation",
+      "lore.label": "Lore",
+      "medicine.label": "Medicine",
+      "meleeWeapons.label": "Melee Weapons",
+      "metaphysics.label": "Metaphysics",
+      "nature.label": "Nature",
+      "perception.label": "Perception",
+      "performance.label": "Performance",
+      "rangedWeapons.label": "Ranged Weapons",
+      "subterfuge.label": "Subterfuge",
+      "stealth.label": "Stealth  "
     },
     "wfrp": {
       "basic": "Basic",

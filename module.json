@@ -26,9 +26,9 @@
     "./scripts/bundle.min.js"
   ],
   "styles": [
-    "./styles/tah-compact.css", 
-    "./styles/token-action-hud.css", 
-    "./styles/tah-dorako.css", 
+    "./styles/tah-compact.css",
+    "./styles/token-action-hud.css",
+    "./styles/tah-dorako.css",
     "./styles/lib/tagify/tagify.css"
   ],
   "languages": [
@@ -209,24 +209,34 @@
       {
         "id": "cleenmain",
         "type": "system"
+      },
+      {
+        "id": "titan",
+        "type": "system"
       }
     ],
     "requires": [],
-    "optional": [{
-      "id": "color-picker",
-      "reason": "To set colors within this module's settings. If both modules are enabled, Token Action HUD will use color-picker"
-    }, {
-      "id": "colorsettings",
-      "reason": "To set colors within this module's settings. If both modules are enabled, Token Action HUD will use color-picker"
-    }],
-    "flags": {
-      "optional": [{
+    "optional": [
+      {
         "id": "color-picker",
         "reason": "To set colors within this module's settings. If both modules are enabled, Token Action HUD will use color-picker"
-      }, {
+      },
+      {
         "id": "colorsettings",
         "reason": "To set colors within this module's settings. If both modules are enabled, Token Action HUD will use color-picker"
-      }]
+      }
+    ],
+    "flags": {
+      "optional": [
+        {
+          "id": "color-picker",
+          "reason": "To set colors within this module's settings. If both modules are enabled, Token Action HUD will use color-picker"
+        },
+        {
+          "id": "colorsettings",
+          "reason": "To set colors within this module's settings. If both modules are enabled, Token Action HUD will use color-picker"
+        }
+      ]
     }
   },
   "socket": false,
