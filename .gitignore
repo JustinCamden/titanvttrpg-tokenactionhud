@@ -9,8 +9,4 @@ foundry.js
 token-action-hud.lock
 scripts/bundle.min.js
 scripts/bundle.min.js.map
-lang/en.json.rej
-lang/en_BACKUP_1069.json
-lang/en_BASE_1069.json
-lang/en_LOCAL_1069.json
-lang/en_REMOTE_1069.json
+module.zip
