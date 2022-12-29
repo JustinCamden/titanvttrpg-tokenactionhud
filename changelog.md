@@ -1,12 +1,42 @@
 # Changelog
 
+# [3.0.17] 2022-12-09
+- Core - Added touch support for dragging the HUD (#341).
+- Core - Update Dorako style - Provided by Dorako (#350).
+- Core - Fixed keybindings event listener not firing when clicking buttons on the HUD (#352).
+- Pathfinder 2e - Update BR language file - Provided by zengerbr (#344).
+- Pathfinder 2e - Fixed thrown strike actions not passing alt usage to roll (#347).
+- Star Wars 5e - Fixed skill functionality and brought in line with D&D 5e - Provided by supervj (#348).
+
+# [3.0.16] 2022-11-22
+- Cypher System - Sort Abilities and Skills into categories - Provided by farling42 (#336).
+- Dungeonslayers 4 - Use item.roll() instead of item.use() - Fixed by Athemis (#340).
+- Pathfinder 1e - Fix parentless custom skills not working (#334).
+- SWADE - Add support for additional Power Points pools (#330).
+- SWADE - Fix 'Running Die' action not working on core and displaying wrong die in subcategory name (#335).
+
+# [3.0.15] 2022-11-18
+- Cypher System - Add support for the Cypher System system - Provided by farling42 (#331).
+- OpenD6 Space - Fix HUD for v10-compatible release - Provided by madseumas (#332).
+- Tormenta20 - Fix HUD for v10-compatible release (#333).
+
+# [3.0.14] 2022-11-10
+- D&D5e - Fix error when Ruins of Symbaroum module is enabled and the actor has spells (#186).
+- Pathfinder 1e - Use spellbook labels for categories (#320).
+- Pathfinder 2e - Remove duplicate Effects category and fix subcategory name - Provided by Felerius.
+- Starfinder - Fix Crew Actions (#201).
+- SWADE - Add 'Running Die' action to the Attributes category under the Derived Stats subcategory (#173).
+- SWADE - Fix Entangled status still applying core statuses when the Fantasy Companion system setting was enabled (#322).
+- SWADE - Fix Power Points not updating on the HUD following change in SWADE 2.1.0 (#328).
+- Symbaroum - Fix HUD for the Symbaroum following v10 release.
+
 # [3.0.13] 2022-10-26
 - Core - Update fr.json - Provided by rectulo.
 - Core - Add 'Enable Dragging' module setting.
 - Core - Add collapse/expand button to left of HUD.
 - Core - Fix overflowing subtitles (#314).
 - Core - Fix scene and hotbar context menus appearing below the HUD (#316).
-- 3.5e SRD - Fix Psionic Power spells not showing on the HUD.
+- 3.5e SRD - Fix Psionic Power spells not showing on the HUD (#145).
 - D&D 5e - Fix title references when Group by Action Type is enabled (#318).
 - Pathfinder 1e - Fix BAB and CMB title references (#315).
 - Pathfinder 2e - Fix error caused by tokens with no actor assigned (#145).

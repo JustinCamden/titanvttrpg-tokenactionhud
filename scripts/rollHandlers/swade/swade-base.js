@@ -39,6 +39,9 @@ export class RollHandlerBaseSwade extends RollHandler {
       case "attribute":
         this._rollAttribute(event, actor, actionId);
         break;
+      case "runningDie":
+        actor.rollRunningDie();
+        break;
       case "skill":
         this._rollSkill(event, actor, actionId);
         break;
@@ -65,11 +68,9 @@ export class RollHandlerBaseSwade extends RollHandler {
   async _toggleStatus(event, actor, actionId, tokenId) {
     const existsOnActor = actor.effects.find(
       e => e.getFlag("core", "statusId") == actionId);
-    const effect = CONFIG.SWADE.statusEffects.find(
-      (e) => e.id === actionId
-    );
-    effect["flags.core.statusId"] = actionId;
-    await canvas.tokens.get(tokenId).toggleEffect(effect, {active: !existsOnActor});
+    const data = game.swade.util.getStatusEffectDataById(actionId);
+    data["flags.core.statusId"] = actionId;
+    await canvas.tokens.get(tokenId).toggleEffect(data, {active: !existsOnActor});
   }
 
   /** @private */
@@ -110,7 +111,12 @@ export class RollHandlerBaseSwade extends RollHandler {
 
   /** @private */
   async _adjustAttributes(event, actor, macroType, actionId) {
-    let attribute = actor.system[macroType];
+    const actionIdArray = actionId.split(">");
+    const changeType = actionIdArray[0];
+    const pool = (actionIdArray.length > 0) ? actionIdArray[1] : null;
+    let attribute = (macroType === 'powerPoints')
+      ? actor.system[macroType][pool]
+      : actor.system[macroType];
 
     if (!attribute) return;
 
@@ -119,7 +125,7 @@ export class RollHandlerBaseSwade extends RollHandler {
     const min = attribute.min ?? 0;
 
     let value;
-    switch (actionId) {
+    switch (changeType) {
       case "increase":
         value = Math.clamped(curValue + 1, min, max);
         break;
@@ -130,7 +136,9 @@ export class RollHandlerBaseSwade extends RollHandler {
 
     let update = { data: {} };
 
-    update.data[macroType] = { value: value };
+    update.data[macroType] = (macroType === 'powerPoints')
+      ? { [pool]: { value: value } }
+      : { value: value };
 
     await actor.update(update);
   }
